@@ -75,7 +75,7 @@ class Model {
 //            }
 //        }
 
-        $this->db = new $databse_handle($link, $db_data['dbprefix']);
+        $this->db = new $databse_handle($link, $db_data['default']['dbprefix']);
     }
 
 }
