@@ -63,9 +63,6 @@ class Model {
         /**
          * an instance for access to methods that this methods can be work with database
          */
-        /**
-         * an instance for access to methods that this methods can be work with database
-         */
         $databse_handle = 'DatabaseTools';
 //        if (file_exists(THIRD_PARTY_PATH . '/' . $db_data['default']['handle'] . '.php') && isset($db_data['default']['handle'])) {
 //            $db_handle_name = $db_data['default']['handle'];
@@ -365,7 +362,6 @@ final class DatabaseTools {
         $this->where_separator = 'AND';
         $this->like_separator = 'AND';
         $this->value = NULL;
-        $this->prefix = '';
         $this->startTime = 0;
         $this->endTime = 0;
     }
