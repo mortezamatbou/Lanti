@@ -75,7 +75,7 @@ class Model {
 //            }
 //        }
 
-        $this->db = new $databse_handle($link);
+        $this->db = new $databse_handle($link, $db_data['dbprefix']);
     }
 
 }
@@ -92,8 +92,9 @@ final class DatabaseTools {
      * an object from Model class. this object is a connection to database
      * @param object $link an instance of PDO
      */
-    function __construct(&$link) {
+    function __construct(&$link, $prefix) {
         $this->pdo = $link;
+        $this->prefix = $prefix;
     }
 
     /**
@@ -116,6 +117,7 @@ final class DatabaseTools {
     private $where_separator = 'AND';
     private $like_separator = 'AND';
     private $value = NULL;
+    private $prefix = '';
     public $startTime = 0;
     public $endTime = 0;
 
@@ -126,7 +128,7 @@ final class DatabaseTools {
     }
 
     public function from($from) {
-        $this->from = !empty($from) ? $from : $this->from;
+        $this->from = !empty($from) ? $this->prefix . $from : $this->from;
         return $this;
     }
 
@@ -237,7 +239,7 @@ final class DatabaseTools {
     public function get($table = '', $limit = '', $offset = '') {
         $this->query_type = 'GET';
         if ($table) {
-            $this->from = trim($table);
+            $this->from = $this->prefix . trim($table);
             $this->limit = !empty($limit) ? $limit : $this->limit;
             $this->offset = !empty($offset) ? $this->limit($limit, $offset) : $this->offset;
         }
@@ -363,6 +365,7 @@ final class DatabaseTools {
         $this->where_separator = 'AND';
         $this->like_separator = 'AND';
         $this->value = NULL;
+        $this->prefix = '';
         $this->startTime = 0;
         $this->endTime = 0;
     }
@@ -408,7 +411,7 @@ final class DatabaseTools {
         // if all of parameters is empty
         // use class parameters
         if ($table && $value) {
-            $this->from = trim($table);
+            $this->from = $this->prefix . trim($table);
             $this->value = '(';
         } else {
             return;
@@ -454,7 +457,7 @@ final class DatabaseTools {
         // if all of parameters is empty
         // use class parameters
         if ($table) {
-            $this->from = trim($table);
+            $this->from = $this->prefix . trim($table);
             !empty($value) ? $this->value($value) : '';
             !empty($where) ? $this->where($where) : '';
         } else {
@@ -503,7 +506,7 @@ final class DatabaseTools {
 
     public function delete($table = '', $where = '') {
         if ($table) {
-            $this->from = trim($table);
+            $this->from = $this->prefix . trim($table);
         }
         if ($where) {
             $this->where($where);
