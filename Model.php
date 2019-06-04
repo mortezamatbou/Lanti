@@ -190,6 +190,12 @@ final class DatabaseTools {
         $this->where_generator($where, $value);
         return $this;
     }
+    
+    public function get_sql() {
+        $this->query_type = "GET";
+        $this->get_build();
+        return $this->query_string;
+    }
 
     private function where_generator($where, $value = '') {
         if (is_array($where)) {
